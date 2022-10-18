@@ -3,6 +3,9 @@ name: Alpine Stable
 on:
   schedule:
     - cron: "0 0 * * 1"
+  push:
+    branches:
+      - ghcr
   workflow_dispatch:
 jobs:
   core:
