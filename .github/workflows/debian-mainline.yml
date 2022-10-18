@@ -80,6 +80,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Sanitize repo slug
+        uses: actions/github-script@v6
+        id: repo_slug
+        with:
+          result-encoding: string
+          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+
       -
         name: Login to GitHub Container Registry
         uses: docker/login-action@v2
