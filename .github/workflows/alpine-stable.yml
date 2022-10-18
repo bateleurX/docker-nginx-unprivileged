@@ -28,7 +28,7 @@ jobs:
         id: repo_slug
         with:
           result-encoding: string
-          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+          script: return 'ghcr.io/${{ github.repository_owner }}'.toLowerCase()
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -57,8 +57,8 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
+          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine
+          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine,mode=max,compression=estargz
 
   perl:
     name: Build Alpine NGINX stable perl Docker image
@@ -80,7 +80,7 @@ jobs:
         id: repo_slug
         with:
           result-encoding: string
-          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+          script: return 'ghcr.io/${{ github.repository_owner }}'.toLowerCase()
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -109,8 +109,8 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine-perl"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-perl
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
+          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl
+          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl,mode=max,compression=estargz
 
   slim:
     name: Build Alpine NGINX stable slim Docker image
@@ -138,7 +138,7 @@ jobs:
         id: repo_slug
         with:
           result-encoding: string
-          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+          script: return 'ghcr.io/${{ github.repository_owner }}'.toLowerCase()
 
       -
         name: Login to GitHub Container Registry
@@ -162,5 +162,5 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine-slim"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-slim
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
+          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim
+          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim,mode=max,compression=estargz

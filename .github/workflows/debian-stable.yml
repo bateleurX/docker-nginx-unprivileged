@@ -28,7 +28,7 @@ jobs:
         id: repo_slug
         with:
           result-encoding: string
-          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+          script: return 'ghcr.io/${{ github.repository_owner }}'.toLowerCase()
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -57,8 +57,8 @@ jobs:
           context: "{{ defaultContext }}:stable/debian"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
+          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable
+          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable,mode=max,compression=estargz
 
   perl:
     name: Build Debian NGINX stable perl Docker image
@@ -80,7 +80,7 @@ jobs:
         id: repo_slug
         with:
           result-encoding: string
-          script: return 'ghcr.io/${{ github.repository }}'.toLowerCase()
+          script: return 'ghcr.io/${{ github.repository_owner }}'.toLowerCase()
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -109,5 +109,5 @@ jobs:
           context: "{{ defaultContext }}:mainline/debian-perl"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-perl
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
+          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-perl
+          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-perl,mode=max,compression=estargz
