@@ -109,6 +109,8 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine-perl"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-perl
           push: true
+          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache
+          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
 
   slim:
     name: Build Alpine NGINX stable slim Docker image
