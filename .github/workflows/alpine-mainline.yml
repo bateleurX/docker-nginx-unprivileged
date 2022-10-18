@@ -7,7 +7,7 @@ on:
 jobs:
   core:
     name: Build Alpine NGINX mainline Docker image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:
@@ -25,6 +25,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Parse NGINX mainline version
         id: version
@@ -38,12 +45,14 @@ jobs:
         with:
           platforms: linux/amd64, linux/arm/v6, linux/arm/v7, linux/arm64, linux/386, linux/ppc64le, linux/s390x
           context: "{{ defaultContext }}:mainline/alpine"
-          tags: nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine, nginxinc/nginx-unprivileged:mainline-alpine, nginxinc/nginx-unprivileged:1-alpine, nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine, nginxinc/nginx-unprivileged:alpine
-          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:mainline-alpine, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:1-alpine, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:alpine
+          push: false
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
 
   perl:
     name: Build Alpine NGINX mainline perl Docker image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:
@@ -61,6 +70,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Parse NGINX mainline version
         id: version
@@ -74,12 +90,14 @@ jobs:
         with:
           platforms: linux/amd64, linux/arm/v6, linux/arm/v7, linux/arm64, linux/386, linux/ppc64le, linux/s390x
           context: "{{ defaultContext }}:mainline/alpine-perl"
-          tags: nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-perl, nginxinc/nginx-unprivileged:mainline-alpine-perl, nginxinc/nginx-unprivileged:1-alpine-perl, nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-perl, nginxinc/nginx-unprivileged:alpine-perl
+          tags: ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:mainline-alpine-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:1-alpine-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:alpine-perl
           push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
 
   slim:
     name: Build Alpine NGINX mainline slim Docker image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:
@@ -97,6 +115,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Parse NGINX mainline version
         id: version
@@ -110,5 +135,7 @@ jobs:
         with:
           platforms: linux/amd64, linux/arm64
           context: "{{ defaultContext }}:mainline/alpine-slim"
-          tags: nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-slim, nginxinc/nginx-unprivileged:mainline-alpine-slim, nginxinc/nginx-unprivileged:1-alpine-slim, nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-slim, nginxinc/nginx-unprivileged:alpine-slim
+          tags: ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-slim, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:mainline-alpine-slim, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:1-alpine-slim, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-slim, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:alpine-slim
           push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache,mode=max,compression=estargz

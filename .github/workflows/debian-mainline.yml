@@ -7,7 +7,7 @@ on:
 jobs:
   core:
     name: Build Debian NGINX mainline Docker image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:
@@ -25,6 +25,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Parse NGINX mainline version
         id: version
@@ -38,12 +45,14 @@ jobs:
         with:
           platforms: linux/amd64, linux/arm/v5, linux/arm/v7, linux/arm64, linux/386, linux/mips64le, linux/ppc64le, linux/s390x
           context: "{{ defaultContext }}:mainline/debian"
-          tags: nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}, nginxinc/nginx-unprivileged:mainline, nginxinc/nginx-unprivileged:1, nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}, nginxinc/nginx-unprivileged:latest
+          tags: ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:mainline, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:1, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:latest
           push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
 
   perl:
     name: Build Debian NGINX mainline perl Docker image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:
@@ -61,6 +70,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Parse NGINX mainline version
         id: version
@@ -74,5 +90,7 @@ jobs:
         with:
           platforms: linux/amd64, linux/arm/v5, linux/arm/v7, linux/arm64, linux/386, linux/mips64le, linux/ppc64le, linux/s390x
           context: "{{ defaultContext }}:mainline/debian-perl"
-          tags: nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-perl, nginxinc/nginx-unprivileged:mainline-perl, nginxinc/nginx-unprivileged:1-perl, nginxinc/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-perl, nginxinc/nginx-unprivileged:perl
+          tags: ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:mainline-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:1-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-perl, ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:perl
           push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/nginx-unprivileged:buildcache,mode=max,compression=estargz
