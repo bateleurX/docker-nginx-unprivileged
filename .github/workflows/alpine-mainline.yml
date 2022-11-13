@@ -54,8 +54,8 @@ jobs:
           context: "{{ defaultContext }}:mainline/alpine"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:mainline-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:1-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine
           push: false
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine,mode=max,compression=estargz
+          cache-from: type=gha,scope=alpine
+          cache-to: type=gha,mode=max,scope=alpine
 
   perl:
     name: Build Alpine NGINX mainline perl Docker image
@@ -106,8 +106,8 @@ jobs:
           context: "{{ defaultContext }}:mainline/alpine-perl"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:mainline-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:1-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl,mode=max,compression=estargz
+          cache-from: type=gha,scope=alpine-perl
+          cache-to: type=gha,mode=max,scope=alpine-perl
 
   slim:
     name: Build Alpine NGINX mainline slim Docker image
@@ -158,5 +158,5 @@ jobs:
           context: "{{ defaultContext }}:mainline/alpine-slim"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:mainline-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:1-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim,mode=max,compression=estargz
+          cache-from: type=gha,scope=alpine-slim
+          cache-to: type=gha,mode=max,scope=alpine-slim

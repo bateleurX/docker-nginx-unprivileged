@@ -53,8 +53,8 @@ jobs:
           context: "{{ defaultContext }}:stable/debian"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable,mode=max,compression=estargz
+          cache-from: type=gha,scope=stable
+          cache-to: type=gha,mode=max,scope=stable
 
   perl:
     name: Build Debian NGINX stable perl Docker image
@@ -105,5 +105,5 @@ jobs:
           context: "{{ defaultContext }}:mainline/debian-perl"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-perl
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-perl
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-perl,mode=max,compression=estargz
+          cache-from: type=gha,scope=stable-perl
+          cache-to: type=gha,mode=max,scope=stable-perl

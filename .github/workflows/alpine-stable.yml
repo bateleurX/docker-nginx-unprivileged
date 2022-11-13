@@ -54,8 +54,8 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine,mode=max,compression=estargz
+          cache-from: type=gha,scope=stable-alpine
+          cache-to: type=gha,mode=max,scope=stable-alpine
 
   perl:
     name: Build Alpine NGINX stable perl Docker image
@@ -106,8 +106,8 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine-perl"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine-perl, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-perl
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-perl,mode=max,compression=estargz
+          cache-from: type=gha,scope=stable-alpine-perl
+          cache-to: type=gha,mode=max,scope=stable-alpine-perl
 
   slim:
     name: Build Alpine NGINX stable slim Docker image
@@ -158,5 +158,5 @@ jobs:
           context: "{{ defaultContext }}:stable/alpine-slim"
           tags: ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:stable-alpine-slim, ${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}-alpine-slim
           push: true
-          cache-from: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim
-          cache-to: type=registry,ref=${{ steps.repo_slug.outputs.result }}/nginx-unprivileged:alpine-slim,mode=max,compression=estargz
+          cache-from: type=gha,scope=stable-alpine-slim
+          cache-to: type=gha,mode=max,scope=stable-alpine-slim
