@@ -45,6 +45,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Install soci-snapshotter
+        run: |
+          wget https://github.com/awslabs/soci-snapshotter/releases/download/v0.3.0/soci-snapshotter-0.3.0-linux-amd64.tar.gz
+          sudo tar -C /usr/local/bin -xvf soci-snapshotter-0.3.0-linux-amd64.tar.gz soci soci-snapshotter-grpc
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -74,7 +79,8 @@ jobs:
         id: build
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64, linux/arm/v5, linux/arm/v7, linux/arm64, linux/386, linux/mips64le, linux/ppc64le, linux/s390x
+          #platforms: linux/amd64, linux/arm/v5, linux/arm/v7, linux/arm64, linux/386, linux/mips64le, linux/ppc64le, linux/s390x
+          platforms: linux/amd64,linux/arm64
           context: "{{ defaultContext }}:mainline/debian"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
