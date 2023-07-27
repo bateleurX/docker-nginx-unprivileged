@@ -87,3 +87,7 @@ jobs:
           push: true
           cache-from: type=gha,scope=debian-perl
           cache-to: type=gha,mode=min,scope=debian-perl
+
+      - name: Generate SOCI index
+        run: |
+          sudo soci create  ${{ steps.meta.outputs.tags }}
